@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,8 +11,13 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useProjectsContext } from "@/contexts/projects";
+import { useState } from "react";
 
 export default function Home() {
+  const [projectName, setProjectName] = useState("");
+  const { dispatch } = useProjectsContext();
+
   return (
     <>
       <Dialog>
@@ -24,11 +31,30 @@ export default function Home() {
               <Label htmlFor="project-name" className="text-right">
                 Project Name
               </Label>
-              <Input id="project-name" className="col-span-3" />
+              <Input
+                id="project-name"
+                className="col-span-3"
+                onChange={(e) => setProjectName(e.target.value)}
+              />
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit">Create</Button>
+            <Button
+              type="submit"
+              onClick={() => {
+                if (!dispatch) return;
+                setProjectName("");
+                dispatch({
+                  type: "add",
+                  payload: {
+                    id: crypto.randomUUID(),
+                    name: projectName,
+                  },
+                });
+              }}
+            >
+              Create
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
