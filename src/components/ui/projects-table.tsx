@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useProjectsContext } from "@/contexts/projects";
+import Link from "next/link";
 
 export default function ProjectsTable() {
   const { projects } = useProjectsContext();
@@ -36,7 +37,12 @@ export default function ProjectsTable() {
                       {projects?.map((project) => (
                         <TableRow key={project.id}>
                           <TableCell className="text-base">
-                            {project.name}
+                            <Link
+                              href={`/project/${project.id}`}
+                              className="block"
+                            >
+                              {project.name}
+                            </Link>
                           </TableCell>
                         </TableRow>
                       ))}
