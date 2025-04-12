@@ -37,8 +37,8 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className="size-screen p-2">
-              <div className="relative">
+            <div className="w-screen h-screen p-2 ">
+              <div className="relative w-full h-full">
                 <div className="absolute right-0">
                   <ModeToggle />
                 </div>
