@@ -23,7 +23,7 @@ export default function CreateProjectDialog() {
     <>
       <Dialog>
         <DialogTrigger className="text-sm">Create a new project</DialogTrigger>
-        <DialogContent className="w-100">
+        <DialogContent className="w-80">
           <DialogHeader>
             <DialogTitle>Create a new project</DialogTitle>
           </DialogHeader>
