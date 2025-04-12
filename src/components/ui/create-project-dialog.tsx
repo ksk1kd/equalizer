@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useProjectsContext } from "@/contexts/projects";
+import { redirect } from "next/navigation";
 import { useState } from "react";
 
 export default function CreateProjectDialog() {
@@ -44,13 +45,15 @@ export default function CreateProjectDialog() {
               onClick={() => {
                 if (!dispatch) return;
                 setProjectName("");
+                const id = crypto.randomUUID();
                 dispatch({
                   type: "add",
                   payload: {
-                    id: crypto.randomUUID(),
+                    id,
                     name: projectName,
                   },
                 });
+                redirect(`/project/${id}`);
               }}
             >
               Create
