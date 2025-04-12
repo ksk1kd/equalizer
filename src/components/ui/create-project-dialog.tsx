@@ -21,13 +21,13 @@ export default function CreateProjectDialog() {
   return (
     <>
       <Dialog>
-        <DialogTrigger>Create New Project</DialogTrigger>
-        <DialogContent>
+        <DialogTrigger className="text-sm">Create a new project</DialogTrigger>
+        <DialogContent className="w-100">
           <DialogHeader>
-            <DialogTitle>Create New Project</DialogTitle>
+            <DialogTitle>Create a new project</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
+            <div className="grid gap-4">
               <Label htmlFor="project-name" className="text-right">
                 Project Name
               </Label>
