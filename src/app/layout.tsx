@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Island } from "@/components/ui/island";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 
 const geistSans = Geist({
@@ -21,8 +22,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  island,
 }: Readonly<{
   children: React.ReactNode;
+  island: React.ReactNode;
 }>) {
   return (
     <>
@@ -43,6 +46,9 @@ export default function RootLayout({
                   <ModeToggle />
                 </div>
                 {children}
+                <div className="absolute bottom-5 w-full flex items-center justify-center">
+                  <Island>{island}</Island>
+                </div>
               </div>
             </div>
           </ThemeProvider>
