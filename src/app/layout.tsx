@@ -47,7 +47,9 @@ export default function RootLayout({
                   <div className="absolute right-0">
                     <ModeToggle />
                   </div>
-                  {children}
+                  <main className="w-full h-full flex justify-center items-center">
+                    {children}
+                  </main>
                   <div className="absolute bottom-5 w-full flex items-center justify-center">
                     <Island>{island}</Island>
                   </div>

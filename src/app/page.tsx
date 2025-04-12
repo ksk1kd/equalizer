@@ -1,5 +1,9 @@
-import { Island } from "@/components/ui/island";
+import ProjectsTable from "@/components/ui/projects-table";
 
 export default function Home() {
-  return <>Content</>;
+  return (
+    <>
+      <ProjectsTable />
+    </>
+  );
 }
