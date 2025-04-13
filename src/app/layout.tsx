@@ -3,10 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ProjectsProvider } from "@/components/projects-provider";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Button } from "@/components/ui/button";
-import { ModeToggle } from "@/components/ui/mode-toggle";
-import { House } from "lucide-react";
-import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,25 +39,8 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <ProjectsProvider>
-              <div className="w-screen h-screen p-2 ">
-                <div className="relative w-full h-full">
-                  <div className="absolute right-0 flex gap-2">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="cursor-pointer"
-                      asChild
-                    >
-                      <Link href="/">
-                        <House />
-                      </Link>
-                    </Button>
-                    <ModeToggle />
-                  </div>
-                  <div className="w-full h-full flex justify-center items-center">
-                    {children}
-                  </div>
-                </div>
+              <div className="w-screen h-screen flex justify-center items-center">
+                {children}
               </div>
             </ProjectsProvider>
           </ThemeProvider>

@@ -1,6 +1,8 @@
 "use client";
 
 import { AppSidebarGroup } from "@/components/app-sidebar-group";
+import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 import {
   Select,
   SelectContent,
@@ -17,6 +19,8 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useProjectsContext } from "@/contexts/projects";
+import { House } from "lucide-react";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export function AppSidebar({ projectId }: { projectId: string }) {
@@ -49,7 +53,21 @@ export function AppSidebar({ projectId }: { projectId: string }) {
         <AppSidebarGroup label="Data">Data Settings</AppSidebarGroup>
         <AppSidebarGroup label="Color">Color Settings</AppSidebarGroup>
       </SidebarContent>
-      <SidebarFooter />
+      <SidebarFooter>
+        <div className="flex gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="cursor-pointer"
+            asChild
+          >
+            <Link href="/">
+              <House />
+            </Link>
+          </Button>
+          <ModeToggle />
+        </div>
+      </SidebarFooter>
     </Sidebar>
   );
 }
