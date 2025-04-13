@@ -11,12 +11,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useProjectsContext } from "@/contexts/projects";
-import { TrashIcon } from "lucide-react";
 import Link from "next/link";
-import { Button } from "./button";
+import DeleteProjectDialog from "./delete-project-dialog";
 
 export default function ProjectsTable() {
-  const { projects, dispatch } = useProjectsContext();
+  const { projects } = useProjectsContext();
 
   return (
     <>
@@ -47,22 +46,10 @@ export default function ProjectsTable() {
                             </Link>
                           </TableCell>
                           <TableCell className="w-5">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="cursor-pointer"
-                              onClick={() => {
-                                if (!dispatch) return;
-                                dispatch({
-                                  type: "delete",
-                                  payload: {
-                                    id: project.id,
-                                  },
-                                });
-                              }}
-                            >
-                              <TrashIcon />
-                            </Button>
+                            <DeleteProjectDialog
+                              id={project.id}
+                              name={project.name}
+                            />
                           </TableCell>
                         </TableRow>
                       ))}
