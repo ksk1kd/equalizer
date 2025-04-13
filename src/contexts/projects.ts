@@ -2,22 +2,30 @@
 
 import { type Dispatch, createContext, useContext } from "react";
 
-type Project = {
+export type Project = {
   id: string;
   name: string;
 };
 
-type ActionType = {
-  type: "add";
-  payload: {
-    id: string;
-    name: string;
-  };
-};
+export type ActionType =
+  | {
+      type: "init";
+      payload: Project[];
+    }
+  | {
+      type: "add";
+      payload: {
+        id: string;
+        name: string;
+      };
+    };
 
 export const initialProjects = [];
 export function projectsReducer(projects: Project[], action: ActionType) {
   switch (action.type) {
+    case "init": {
+      return action.payload;
+    }
     case "add": {
       return [
         ...projects,
@@ -26,9 +34,6 @@ export function projectsReducer(projects: Project[], action: ActionType) {
           name: action.payload.name,
         },
       ];
-    }
-    default: {
-      throw Error(`Unknown action: ${action.type}`);
     }
   }
 }
