@@ -1,5 +1,6 @@
 "use client";
 
+import { AppSidebarGroup } from "@/components/app-sidebar-group";
 import {
   Select,
   SelectContent,
@@ -11,7 +12,6 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
@@ -46,8 +46,8 @@ export function AppSidebar({ projectId }: { projectId: string }) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup />
-        <SidebarGroup />
+        <AppSidebarGroup label="Data">Data Settings</AppSidebarGroup>
+        <AppSidebarGroup label="Color">Color Settings</AppSidebarGroup>
       </SidebarContent>
       <SidebarFooter />
     </Sidebar>
