@@ -18,6 +18,12 @@ export type ActionType =
         id: string;
         name: string;
       };
+    }
+  | {
+      type: "delete";
+      payload: {
+        id: string;
+      };
     };
 
 export const initialProjects = [];
@@ -34,6 +40,9 @@ export function projectsReducer(projects: Project[], action: ActionType) {
           name: action.payload.name,
         },
       ];
+    }
+    case "delete": {
+      return projects.filter((project) => project.id !== action.payload.id);
     }
   }
 }

@@ -11,10 +11,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useProjectsContext } from "@/contexts/projects";
+import { TrashIcon } from "lucide-react";
 import Link from "next/link";
+import { Button } from "./button";
 
 export default function ProjectsTable() {
-  const { projects } = useProjectsContext();
+  const { projects, dispatch } = useProjectsContext();
 
   return (
     <>
@@ -43,6 +45,24 @@ export default function ProjectsTable() {
                             >
                               {project.name}
                             </Link>
+                          </TableCell>
+                          <TableCell className="w-5">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="cursor-pointer"
+                              onClick={() => {
+                                if (!dispatch) return;
+                                dispatch({
+                                  type: "delete",
+                                  payload: {
+                                    id: project.id,
+                                  },
+                                });
+                              }}
+                            >
+                              <TrashIcon />
+                            </Button>
                           </TableCell>
                         </TableRow>
                       ))}
