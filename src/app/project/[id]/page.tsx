@@ -1,11 +1,17 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
-export default function Project() {
+export default async function Project({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+
   return (
     <>
       <SidebarProvider>
-        <AppSidebar />
+        <AppSidebar projectId={id} />
         <main>
           <SidebarTrigger />
         </main>
