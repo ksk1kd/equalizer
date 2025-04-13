@@ -41,7 +41,7 @@ export default function ProjectsTable() {
                           <TableCell className="text-base">
                             <Link
                               href={`/project/${project.id}`}
-                              className="block"
+                              className="block p-2"
                             >
                               {project.name}
                             </Link>
