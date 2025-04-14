@@ -1,21 +1,15 @@
-import { AppSidebar } from "@/components/app-sidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import Canvas from "@/features/project/canvas";
 
-export default async function Project({
+export default function Project({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }) {
-  const { id } = await params;
+  const { id } = params;
 
   return (
     <>
-      <SidebarProvider>
-        <AppSidebar projectId={id} />
-        <main>
-          <SidebarTrigger />
-        </main>
-      </SidebarProvider>
+      <Canvas projectId={id} />
     </>
   );
 }
