@@ -21,6 +21,7 @@ export default function Canvas({
   >(null);
   const isFirstRender = useRef(true);
   const [data, setData] = useState<Pref[]>([]);
+  const [segments, setSegments] = useState<number[]>([]);
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -38,6 +39,16 @@ export default function Canvas({
     try {
       const parsedData = JSON.parse(current?.data.source || "");
       setData(parsedData);
+    } catch (_) {}
+
+    try {
+      const splitedSegments = current?.data.segments
+        .replace(" ", "")
+        .split(",")
+        .filter((n) => n)
+        .map((s) => Number(s));
+
+      setSegments([...new Set(splitedSegments)]);
     } catch (_) {}
   }, [projects, projectId]);
 
@@ -88,7 +99,7 @@ export default function Canvas({
               canvasVariants({ background: currentProject.color.background }),
             )}
           >
-            <JapanMap data={data} />
+            <JapanMap data={data} segments={segments} />
           </div>
         </main>
       </SidebarProvider>

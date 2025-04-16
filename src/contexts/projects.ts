@@ -11,6 +11,7 @@ export type Project = {
   };
   data: {
     source: string;
+    segments: string;
   };
 };
 
@@ -45,6 +46,13 @@ export type ActionType =
         id: string;
         source: string;
       };
+    }
+  | {
+      type: "update:data-segments";
+      payload: {
+        id: string;
+        segments: string;
+      };
     };
 
 export const initialProjects = [];
@@ -64,6 +72,7 @@ export function projectsReducer(projects: Project[], action: ActionType) {
           },
           data: {
             source: "",
+            segments: "",
           },
         } as Project,
       ];
@@ -92,6 +101,19 @@ export function projectsReducer(projects: Project[], action: ActionType) {
               data: {
                 ...project.data,
                 source: action.payload.source,
+              },
+            }
+          : project,
+      );
+    }
+    case "update:data-segments": {
+      return projects.map((project) =>
+        project.id === action.payload.id
+          ? {
+              ...project,
+              data: {
+                ...project.data,
+                segments: action.payload.segments,
               },
             }
           : project,
