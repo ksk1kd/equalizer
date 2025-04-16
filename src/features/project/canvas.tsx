@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 import { notFound } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import JapanMap from "./japan-map";
+import type { Pref } from "./japan-map";
 
 export default function Canvas({
   projectId,
@@ -18,6 +20,7 @@ export default function Canvas({
     Project | undefined | null
   >(null);
   const isFirstRender = useRef(true);
+  const [data, setData] = useState<Pref[]>([]);
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -31,6 +34,11 @@ export default function Canvas({
     if (projects && typeof current === "undefined") {
       notFound();
     }
+
+    try {
+      const parsedData = JSON.parse(current?.data.source || "");
+      setData(parsedData);
+    } catch (_) {}
   }, [projects, projectId]);
 
   if (!projects || !currentProject) return null;
@@ -80,7 +88,7 @@ export default function Canvas({
               canvasVariants({ background: currentProject.color.background }),
             )}
           >
-            Canvas
+            <JapanMap data={data} />
           </div>
         </main>
       </SidebarProvider>

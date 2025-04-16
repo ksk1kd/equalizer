@@ -4,7 +4,7 @@ import geoJson from "@/features/project/data/japan.json";
 import * as d3 from "d3";
 import React, { useEffect, memo, useRef } from "react";
 
-type Pref = {
+export type Pref = {
   name: string;
   count: number;
 };

@@ -62,8 +62,19 @@ export function AppSidebar({ currentProject }: { currentProject: Project }) {
               <Textarea
                 className="h-40"
                 placeholder={
-                  '[\n  {\n    name: "Hokkaido", \n    amount: 100\n  },\n  {\n    name: "Tokyo", \n    amount: 200\n  },\n  {\n    name: "Osaka", \n    amount: 150\n  }\n]'
+                  '[\n  {\n    "name": "Hokkaido", \n    "amount": 100\n  },\n  {\n    "name": "Tokyo", \n    "amount": 200\n  },\n  {\n    "name": "Osaka", \n    "amount": 150\n  }\n]'
                 }
+                defaultValue={currentProject.data.source}
+                onChange={(e) => {
+                  if (!dispatch) return;
+                  dispatch({
+                    type: "update:data-source",
+                    payload: {
+                      id: currentProject.id,
+                      source: e.target.value,
+                    },
+                  });
+                }}
               />
             </FormControl>
           </FormItem>
