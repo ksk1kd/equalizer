@@ -57,49 +57,47 @@ export function AppSidebar({ currentProject }: { currentProject: Project }) {
       </SidebarHeader>
       <SidebarContent>
         <AppSidebarGroup label="Data">
-          <div className="grid gap-4">
-            <FormItem>
-              <FormLabel>Source</FormLabel>
-              <FormControl>
-                <Textarea
-                  className="h-40"
-                  placeholder={
-                    '[\n  {\n    "name": "Hokkaido", \n    "amount": 100\n  },\n  {\n    "name": "Tokyo", \n    "amount": 200\n  },\n  {\n    "name": "Osaka", \n    "amount": 150\n  }\n]'
-                  }
-                  defaultValue={currentProject.data.source}
-                  onChange={(e) => {
-                    if (!dispatch) return;
-                    dispatch({
-                      type: "update:data-source",
-                      payload: {
-                        id: currentProject.id,
-                        source: e.target.value,
-                      },
-                    });
-                  }}
-                />
-              </FormControl>
-            </FormItem>
-            <FormItem>
-              <FormLabel>Segments</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="50,100,150,200"
-                  defaultValue={currentProject.data.segments}
-                  onChange={(e) => {
-                    if (!dispatch) return;
-                    dispatch({
-                      type: "update:data-segments",
-                      payload: {
-                        id: currentProject.id,
-                        segments: e.target.value,
-                      },
-                    });
-                  }}
-                />
-              </FormControl>
-            </FormItem>
-          </div>
+          <FormItem>
+            <FormLabel>Source</FormLabel>
+            <FormControl>
+              <Textarea
+                className="h-40"
+                placeholder={
+                  '[\n  {\n    "name": "Hokkaido", \n    "amount": 100\n  },\n  {\n    "name": "Tokyo", \n    "amount": 200\n  },\n  {\n    "name": "Osaka", \n    "amount": 150\n  }\n]'
+                }
+                defaultValue={currentProject.data.source}
+                onChange={(e) => {
+                  if (!dispatch) return;
+                  dispatch({
+                    type: "update:data-source",
+                    payload: {
+                      id: currentProject.id,
+                      source: e.target.value,
+                    },
+                  });
+                }}
+              />
+            </FormControl>
+          </FormItem>
+          <FormItem>
+            <FormLabel>Segments</FormLabel>
+            <FormControl>
+              <Input
+                placeholder="50,100,150,200"
+                defaultValue={currentProject.data.segments}
+                onChange={(e) => {
+                  if (!dispatch) return;
+                  dispatch({
+                    type: "update:data-segments",
+                    payload: {
+                      id: currentProject.id,
+                      segments: e.target.value,
+                    },
+                  });
+                }}
+              />
+            </FormControl>
+          </FormItem>
         </AppSidebarGroup>
         <AppSidebarGroup label="Color">
           <FormItem>

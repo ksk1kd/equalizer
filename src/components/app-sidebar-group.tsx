@@ -31,7 +31,7 @@ export function AppSidebarGroup({
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <div className="p-2">{children}</div>
+                <div className="p-2 grid gap-5">{children}</div>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
