@@ -1,11 +1,11 @@
 import Canvas from "@/features/project/canvas";
 
-export default function Project({
+export default async function Project({
   params,
 }: {
   params: { id: string };
 }) {
-  const { id } = params;
+  const { id } = await params;
 
   return (
     <>
