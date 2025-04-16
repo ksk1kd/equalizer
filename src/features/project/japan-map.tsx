@@ -13,10 +13,15 @@ const WIDTH = 800;
 const HEIGHT = 800;
 const CENTER_POS = [137.0, 38.2] as [number, number];
 const SCALE = 1500;
-const COLOR = "#2566CC";
+const LIGHTNESS = 0.75;
+const CHROMA = 0.18;
 const MIN_OPACITY = 0.3;
 
-const JapanMap = ({ data, segments }: { data: Pref[]; segments: number[] }) => {
+const JapanMap = ({
+  data,
+  segments,
+  hue,
+}: { data: Pref[]; segments: number[]; hue: number }) => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const amountArray = data.map((item) => item.amount);
   const min = Math.min(...amountArray);
@@ -54,7 +59,7 @@ const JapanMap = ({ data, segments }: { data: Pref[]; segments: number[] }) => {
       .attr("d", (d) => path(d as d3.GeoPermissibleObjects))
       .attr("stroke", "#666")
       .attr("stroke-width", 1)
-      .attr("fill", COLOR)
+      .attr("fill", `oklch(${LIGHTNESS} ${CHROMA} ${hue})`)
       .attr("fill-opacity", (item) => {
         const targets = data.filter((e) => e.name === item.properties.name);
         if (targets.length === 0) return 0;
@@ -79,7 +84,7 @@ const JapanMap = ({ data, segments }: { data: Pref[]; segments: number[] }) => {
     return () => {
       d3.select(mapContainer).selectAll("*").remove();
     };
-  }, [data, completedSegments]);
+  }, [data, completedSegments, hue]);
 
   return <div ref={mapContainerRef} className="w-[800px] h-[800px]" />;
 };

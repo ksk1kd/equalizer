@@ -99,7 +99,11 @@ export default function Canvas({
               canvasVariants({ background: currentProject.color.background }),
             )}
           >
-            <JapanMap data={data} segments={segments} />
+            <JapanMap
+              data={data}
+              segments={segments}
+              hue={currentProject.color.hue}
+            />
           </div>
         </main>
       </SidebarProvider>

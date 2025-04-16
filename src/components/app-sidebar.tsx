@@ -22,6 +22,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Slider } from "@/components/ui/slider";
 import { Textarea } from "@/components/ui/textarea";
 import { type Project, useProjectsContext } from "@/contexts/projects";
 import { House } from "lucide-react";
@@ -125,6 +126,45 @@ export function AppSidebar({ currentProject }: { currentProject: Project }) {
                   <Label htmlFor="background-dark">Dark</Label>
                 </div>
               </RadioGroup>
+            </FormControl>
+          </FormItem>
+          <FormItem>
+            <FormLabel>Hue</FormLabel>
+            <FormControl>
+              <div className="flex gap-2">
+                <Slider
+                  min={0}
+                  max={360}
+                  value={[currentProject.color.hue || 0]}
+                  onValueChange={([value]: number[]) => {
+                    if (!dispatch) return;
+                    dispatch({
+                      type: "update:color-hue",
+                      payload: {
+                        id: currentProject.id,
+                        hue: value,
+                      },
+                    });
+                  }}
+                />
+                <Input
+                  type="number"
+                  min={0}
+                  max={360}
+                  value={currentProject.color.hue || 0}
+                  onChange={(e) => {
+                    if (!dispatch) return;
+                    dispatch({
+                      type: "update:color-hue",
+                      payload: {
+                        id: currentProject.id,
+                        hue: Number(e.target.value),
+                      },
+                    });
+                  }}
+                  className="w-16 text-center"
+                />
+              </div>
             </FormControl>
           </FormItem>
         </AppSidebarGroup>
