@@ -21,6 +21,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Textarea } from "@/components/ui/textarea";
 import { type Project, useProjectsContext } from "@/contexts/projects";
 import { House } from "lucide-react";
 import Link from "next/link";
@@ -54,7 +55,19 @@ export function AppSidebar({ currentProject }: { currentProject: Project }) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <AppSidebarGroup label="Data">Data Settings</AppSidebarGroup>
+        <AppSidebarGroup label="Data">
+          <FormItem>
+            <FormLabel>Source</FormLabel>
+            <FormControl>
+              <Textarea
+                className="h-40"
+                placeholder={
+                  '[\n  {\n    name: "Hokkaido", \n    amount: 100\n  },\n  {\n    name: "Tokyo", \n    amount: 200\n  },\n  {\n    name: "Osaka", \n    amount: 150\n  }\n]'
+                }
+              />
+            </FormControl>
+          </FormItem>
+        </AppSidebarGroup>
         <AppSidebarGroup label="Color">
           <FormItem>
             <FormLabel>Background</FormLabel>
