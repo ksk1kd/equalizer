@@ -5,14 +5,17 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
+type SliderProps = SliderPrimitive.SliderProps & { backgroundColor: string };
+
 function Slider({
   className,
   defaultValue,
   value,
   min = 0,
   max = 100,
+  backgroundColor = "",
   ...props
-}: React.ComponentProps<typeof SliderPrimitive.Root>) {
+}: SliderProps) {
   const _values = React.useMemo(
     () =>
       Array.isArray(value)
@@ -41,12 +44,14 @@ function Slider({
         className={cn(
           "bg-muted relative grow overflow-hidden rounded-full data-[orientation=horizontal]:h-1.5 data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-1.5",
         )}
+        style={{ background: backgroundColor }}
       >
         <SliderPrimitive.Range
           data-slot="slider-range"
           className={cn(
             "bg-primary absolute data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full",
           )}
+          style={{ background: backgroundColor }}
         />
       </SliderPrimitive.Track>
       {Array.from({ length: _values.length }, (_, index) => (

@@ -136,6 +136,7 @@ export function AppSidebar({ currentProject }: { currentProject: Project }) {
                   min={0}
                   max={360}
                   value={[currentProject.color.hue || 0]}
+                  backgroundColor={`oklch(0.7 0.1 ${currentProject.color.hue})`}
                   onValueChange={([value]: number[]) => {
                     if (!dispatch) return;
                     dispatch({
