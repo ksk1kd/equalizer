@@ -9,6 +9,10 @@ export type Project = {
   color: {
     background: "light" | "dark";
     hue: number;
+    brightness: {
+      min: number;
+      max: number;
+    };
   };
   data: {
     source: string;
@@ -49,6 +53,13 @@ export type ActionType =
       };
     }
   | {
+      type: "update:color-brightness";
+      payload: {
+        id: string;
+        brightness: [number, number];
+      };
+    }
+  | {
       type: "update:data-source";
       payload: {
         id: string;
@@ -78,6 +89,10 @@ export function projectsReducer(projects: Project[], action: ActionType) {
           color: {
             background: "dark",
             hue: 180,
+            brightness: {
+              min: 0.0,
+              max: 1.0,
+            },
           },
           data: {
             source: "",
@@ -110,6 +125,22 @@ export function projectsReducer(projects: Project[], action: ActionType) {
               color: {
                 ...project.color,
                 hue: action.payload.hue,
+              },
+            }
+          : project,
+      );
+    }
+    case "update:color-brightness": {
+      return projects.map((project) =>
+        project.id === action.payload.id
+          ? {
+              ...project,
+              color: {
+                ...project.color,
+                brightness: {
+                  min: action.payload.brightness[0],
+                  max: action.payload.brightness[1],
+                },
               },
             }
           : project,

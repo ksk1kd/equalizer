@@ -168,6 +168,30 @@ export function AppSidebar({ currentProject }: { currentProject: Project }) {
               </div>
             </FormControl>
           </FormItem>
+          <FormItem>
+            <FormLabel>Brightness</FormLabel>
+            <FormControl>
+              <Slider
+                min={0.0}
+                max={1.0}
+                step={0.1}
+                value={[
+                  currentProject.color.brightness.min || 0.0,
+                  currentProject.color.brightness.max || 1.0,
+                ]}
+                onValueChange={([min, max]: [number, number]) => {
+                  if (!dispatch) return;
+                  dispatch({
+                    type: "update:color-brightness",
+                    payload: {
+                      id: currentProject.id,
+                      brightness: [min, max],
+                    },
+                  });
+                }}
+              />
+            </FormControl>
+          </FormItem>
         </AppSidebarGroup>
       </SidebarContent>
       <SidebarFooter>

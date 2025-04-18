@@ -5,7 +5,7 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-type SliderProps = SliderPrimitive.SliderProps & { backgroundColor: string };
+type SliderProps = SliderPrimitive.SliderProps & { backgroundColor?: string };
 
 function Slider({
   className,
