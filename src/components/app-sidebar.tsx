@@ -131,41 +131,22 @@ export function AppSidebar({ currentProject }: { currentProject: Project }) {
           <FormItem>
             <FormLabel>Hue</FormLabel>
             <FormControl>
-              <div className="flex gap-2">
-                <Slider
-                  min={0}
-                  max={360}
-                  value={[currentProject.color.hue || 0]}
-                  backgroundColor={`oklch(0.7 0.1 ${currentProject.color.hue})`}
-                  onValueChange={([value]: number[]) => {
-                    if (!dispatch) return;
-                    dispatch({
-                      type: "update:color-hue",
-                      payload: {
-                        id: currentProject.id,
-                        hue: value,
-                      },
-                    });
-                  }}
-                />
-                <Input
-                  type="number"
-                  min={0}
-                  max={360}
-                  value={currentProject.color.hue || 0}
-                  onChange={(e) => {
-                    if (!dispatch) return;
-                    dispatch({
-                      type: "update:color-hue",
-                      payload: {
-                        id: currentProject.id,
-                        hue: Number(e.target.value),
-                      },
-                    });
-                  }}
-                  className="w-16 text-center"
-                />
-              </div>
+              <Slider
+                min={0}
+                max={360}
+                value={[currentProject.color.hue || 0]}
+                backgroundColor={`oklch(0.7 0.1 ${currentProject.color.hue})`}
+                onValueChange={([value]: number[]) => {
+                  if (!dispatch) return;
+                  dispatch({
+                    type: "update:color-hue",
+                    payload: {
+                      id: currentProject.id,
+                      hue: value,
+                    },
+                  });
+                }}
+              />
             </FormControl>
           </FormItem>
           <FormItem>
