@@ -103,6 +103,7 @@ export default function Canvas({
               data={data}
               segments={segments}
               hue={currentProject.color.hue}
+              brightness={currentProject.color.brightness}
             />
           </div>
         </main>

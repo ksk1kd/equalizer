@@ -15,13 +15,18 @@ const CENTER_POS = [137.0, 38.2] as [number, number];
 const SCALE = 1500;
 const LIGHTNESS = 0.75;
 const CHROMA = 0.18;
-const MIN_OPACITY = 0.3;
 
 const JapanMap = ({
   data,
   segments,
   hue,
-}: { data: Pref[]; segments: number[]; hue: number }) => {
+  brightness,
+}: {
+  data: Pref[];
+  segments: number[];
+  hue: number;
+  brightness: { min: number; max: number };
+}) => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const amountArray = data.map((item) => item.amount);
   const min = Math.min(...amountArray);
@@ -71,8 +76,9 @@ const JapanMap = ({
             amount <= completedSegments[i]
           ) {
             const opacity =
-              1.0 -
-              ((completedSegments.length - 1 - i) * (1.0 - MIN_OPACITY)) /
+              brightness.max -
+              ((completedSegments.length - 1 - i) *
+                (brightness.max - brightness.min)) /
                 (completedSegments.length - 2);
             return opacity;
           }
@@ -84,7 +90,7 @@ const JapanMap = ({
     return () => {
       d3.select(mapContainer).selectAll("*").remove();
     };
-  }, [data, completedSegments, hue]);
+  }, [data, completedSegments, hue, brightness]);
 
   return <div ref={mapContainerRef} className="w-[800px] h-[800px]" />;
 };
