@@ -9,6 +9,8 @@ import { notFound } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import JapanMap from "./japan-map";
 import type { Pref } from "./japan-map";
+import { SidebarGroupColor } from "./sidebar-group-color";
+import { SidebarGroupData } from "./sidebar-group-data";
 
 export default function Canvas({
   projectId,
@@ -87,7 +89,10 @@ export default function Canvas({
   return (
     <>
       <SidebarProvider>
-        <AppSidebar currentProject={currentProject} />
+        <AppSidebar currentProject={currentProject}>
+          <SidebarGroupData currentProject={currentProject} />
+          <SidebarGroupColor currentProject={currentProject} />
+        </AppSidebar>
         <main className="relative w-screen h-screen">
           <SidebarTrigger
             className={cn(
