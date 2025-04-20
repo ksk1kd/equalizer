@@ -1,5 +1,6 @@
 "use client";
 
+import { useCurrentProjectContext } from "@/contexts/currentProject";
 import geoJson from "@/features/project/data/japan.json";
 import * as d3 from "d3";
 import React, { useEffect, memo, useRef } from "react";
@@ -16,25 +17,11 @@ const SCALE = 1500;
 const LIGHTNESS = 0.75;
 const CHROMA = 0.18;
 
-const JapanMap = ({
-  data,
-  segments,
-  hue,
-  brightness,
-}: {
-  data: Pref[];
-  segments: number[];
-  hue: number;
-  brightness: { min: number; max: number };
-}) => {
+const JapanMap = () => {
+  const { currentProject } = useCurrentProjectContext();
+  if (!currentProject) return;
+
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
-  const amountArray = data.map((item) => item.amount);
-  const min = Math.min(...amountArray);
-  const max = Math.max(...amountArray);
-  const completedSegments = React.useMemo(
-    () => [min - 1, ...segments.sort(), max],
-    [min, max, segments],
-  );
 
   useEffect(() => {
     if (!geoJson || !geoJson.features) return;
@@ -64,23 +51,20 @@ const JapanMap = ({
       .attr("d", (d) => path(d as d3.GeoPermissibleObjects))
       .attr("stroke", "#666")
       .attr("stroke-width", 1)
-      .attr("fill", `oklch(${LIGHTNESS} ${CHROMA} ${hue})`)
+      .attr("fill", `oklch(${LIGHTNESS} ${CHROMA} ${currentProject.color.hue})`)
       .attr("fill-opacity", (item) => {
-        const targets = data.filter((e) => e.name === item.properties.name);
+        const targets = currentProject.data.source.filter(
+          (e) => e.name === item.properties.name,
+        );
         if (targets.length === 0) return 0;
 
         const amount = targets[0].amount;
-        for (let i = 1; i < completedSegments.length; i++) {
-          if (
-            amount > completedSegments[i - 1] &&
-            amount <= completedSegments[i]
-          ) {
-            const opacity =
-              brightness.max -
-              ((completedSegments.length - 1 - i) *
-                (brightness.max - brightness.min)) /
-                (completedSegments.length - 2);
-            return opacity;
+
+        for (let i = 0; i < currentProject.data.segments.length; i++) {
+          const min = currentProject.data.segments[i].min ?? amount;
+          const max = currentProject.data.segments[i].max ?? amount;
+          if (amount >= min && amount <= max) {
+            return currentProject.data.segments[i].opacity;
           }
         }
 
@@ -90,7 +74,7 @@ const JapanMap = ({
     return () => {
       d3.select(mapContainer).selectAll("*").remove();
     };
-  }, [data, completedSegments, hue, brightness]);
+  }, [currentProject]);
 
   return <div ref={mapContainerRef} className="w-[800px] h-[800px]" />;
 };

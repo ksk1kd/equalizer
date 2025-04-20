@@ -92,14 +92,7 @@ export default function Canvas({
               }),
             )}
           >
-            <JapanMap
-              data={currentProject?.data.source || []}
-              segments={currentProject?.data.segments || []}
-              hue={currentProject?.color.hue || 180}
-              brightness={
-                currentProject?.color.brightness || { min: 0.0, max: 1.0 }
-              }
-            />
+            <JapanMap />
           </div>
         </main>
       </SidebarProvider>

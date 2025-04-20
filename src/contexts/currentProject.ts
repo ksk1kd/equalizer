@@ -1,6 +1,7 @@
 "use client";
 
 import type { Project } from "@/contexts/projects";
+import { max } from "d3";
 import {
   type Dispatch,
   type SetStateAction,
@@ -11,6 +12,12 @@ import {
 export type Pref = {
   name: string;
   amount: number;
+};
+
+export type Segment = {
+  opacity: number;
+  min: number | null;
+  max: number | null;
 };
 
 export type CurrentProject = {
@@ -25,7 +32,7 @@ export type CurrentProject = {
   };
   data: {
     source: Pref[];
-    segments: number[];
+    segments: Segment[];
   };
 };
 
@@ -46,24 +53,51 @@ export function currentProjectReducer(
       if (!action.payload.project) return null;
 
       try {
+        const name = action.payload.project.name;
+        const background = action.payload.project.color.background;
+        const hue = action.payload.project.color.hue;
+        const brightnessMin = action.payload.project.color.brightness.min;
+        const brightnessMax = action.payload.project.color.brightness.max;
+
+        const source = JSON.parse(action.payload.project.data.source) as Pref[];
+
+        const amountOnlySegments =
+          action.payload.project.data.segments
+            .replace(" ", "")
+            .split(",")
+            .filter((n) => n)
+            .map((s) => Number(s))
+            .sort((a, b) => a - b) || [];
+
+        const segments: Segment[] = [];
+        for (let i = 0; i < amountOnlySegments.length + 1; i++) {
+          const min = i !== 0 ? amountOnlySegments[i - 1] + 1 : null;
+          const max =
+            i !== amountOnlySegments.length ? amountOnlySegments[i] : null;
+          const opacity =
+            brightnessMin +
+            (brightnessMax - brightnessMin) * (i / amountOnlySegments.length);
+
+          segments.push({
+            opacity,
+            min,
+            max,
+          });
+        }
+
         return {
-          name: action.payload.project.name,
+          name,
           color: {
-            background: action.payload.project.color.background,
-            hue: action.payload.project.color.hue,
+            background,
+            hue,
             brightness: {
-              min: action.payload.project.color.brightness.min,
-              max: action.payload.project.color.brightness.max,
+              min: brightnessMin,
+              max: brightnessMax,
             },
           },
           data: {
-            source: JSON.parse(action.payload.project.data.source) as Pref[],
-            segments:
-              action.payload.project.data.segments
-                .replace(" ", "")
-                .split(",")
-                .filter((n) => n)
-                .map((s) => Number(s)) || [],
+            source,
+            segments,
           },
         };
       } catch (_) {
