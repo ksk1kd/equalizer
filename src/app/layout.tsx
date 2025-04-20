@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { CurrentProjectProvider } from "@/components/current-project-provider";
 import { ProjectsProvider } from "@/components/projects-provider";
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -39,9 +40,11 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <ProjectsProvider>
-              <div className="w-screen h-screen flex justify-center items-center">
-                {children}
-              </div>
+              <CurrentProjectProvider>
+                <div className="w-screen h-screen flex justify-center items-center">
+                  {children}
+                </div>
+              </CurrentProjectProvider>
             </ProjectsProvider>
           </ThemeProvider>
         </body>

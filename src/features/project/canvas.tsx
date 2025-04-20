@@ -2,13 +2,13 @@
 
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { type Project, useProjectsContext } from "@/contexts/projects";
+import { useCurrentProjectContext } from "@/contexts/currentProject";
+import { useProjectsContext } from "@/contexts/projects";
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 import { notFound } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import JapanMap from "./japan-map";
-import type { Pref } from "./japan-map";
 import { SidebarGroupColor } from "./sidebar-group-color";
 import { SidebarGroupData } from "./sidebar-group-data";
 
@@ -17,13 +17,9 @@ export default function Canvas({
 }: {
   projectId: string;
 }) {
+  const { setCurrentProjectId, currentProject } = useCurrentProjectContext();
   const { projects } = useProjectsContext();
-  const [currentProject, setCurrentProject] = useState<
-    Project | undefined | null
-  >(null);
   const isFirstRender = useRef(true);
-  const [data, setData] = useState<Pref[]>([]);
-  const [segments, setSegments] = useState<number[]>([]);
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -32,27 +28,15 @@ export default function Canvas({
     }
 
     const current = projects?.find((project) => project.id === projectId);
-    setCurrentProject(current);
 
     if (projects && typeof current === "undefined") {
       notFound();
     }
 
-    try {
-      const parsedData = JSON.parse(current?.data.source || "");
-      setData(parsedData);
-    } catch (_) {}
-
-    try {
-      const splitedSegments = current?.data.segments
-        .replace(" ", "")
-        .split(",")
-        .filter((n) => n)
-        .map((s) => Number(s));
-
-      setSegments([...new Set(splitedSegments)]);
-    } catch (_) {}
-  }, [projects, projectId]);
+    if (setCurrentProjectId) {
+      setCurrentProjectId(projectId);
+    }
+  }, [projects, projectId, setCurrentProjectId]);
 
   if (!projects || !currentProject) return null;
 
@@ -89,26 +73,32 @@ export default function Canvas({
   return (
     <>
       <SidebarProvider>
-        <AppSidebar currentProject={currentProject}>
-          <SidebarGroupData currentProject={currentProject} />
-          <SidebarGroupColor currentProject={currentProject} />
+        <AppSidebar>
+          <SidebarGroupData />
+          <SidebarGroupColor />
         </AppSidebar>
         <main className="relative w-screen h-screen">
           <SidebarTrigger
             className={cn(
-              triggerVariants({ background: currentProject.color.background }),
+              triggerVariants({
+                background: currentProject?.color.background,
+              }),
             )}
           />
           <div
             className={cn(
-              canvasVariants({ background: currentProject.color.background }),
+              canvasVariants({
+                background: currentProject?.color.background,
+              }),
             )}
           >
             <JapanMap
-              data={data}
-              segments={segments}
-              hue={currentProject.color.hue}
-              brightness={currentProject.color.brightness}
+              data={currentProject?.data.source || []}
+              segments={currentProject?.data.segments || []}
+              hue={currentProject?.color.hue || 180}
+              brightness={
+                currentProject?.color.brightness || { min: 0.0, max: 1.0 }
+              }
             />
           </div>
         </main>

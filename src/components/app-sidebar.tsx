@@ -17,17 +17,16 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { type Project, useProjectsContext } from "@/contexts/projects";
+import { useCurrentProjectContext } from "@/contexts/currentProject";
+import { useProjectsContext } from "@/contexts/projects";
 import { House } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type React from "react";
 
-export function AppSidebar({
-  currentProject,
-  children,
-}: { currentProject: Project; children: React.ReactNode }) {
+export function AppSidebar({ children }: { children: React.ReactNode }) {
   const { projects } = useProjectsContext();
+  const { currentProjectId } = useCurrentProjectContext();
   const router = useRouter();
 
   return (
@@ -37,7 +36,7 @@ export function AppSidebar({
           <SidebarMenuItem>
             <Select
               onValueChange={(value) => router.push(`/project/${value}`)}
-              defaultValue={currentProject.id}
+              defaultValue={currentProjectId || ""}
             >
               <SelectTrigger className="w-full border-0">
                 <SelectValue placeholder="Project" />

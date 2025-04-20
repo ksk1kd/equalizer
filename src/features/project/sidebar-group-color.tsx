@@ -6,12 +6,14 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 import { Slider } from "@/components/ui/slider";
-import { type Project, useProjectsContext } from "@/contexts/projects";
+import { useCurrentProjectContext } from "@/contexts/currentProject";
+import { useProjectsContext } from "@/contexts/projects";
 
-export function SidebarGroupColor({
-  currentProject,
-}: { currentProject: Project }) {
+export function SidebarGroupColor() {
   const { dispatch } = useProjectsContext();
+  const { currentProjectId, currentProject } = useCurrentProjectContext();
+
+  if (!currentProjectId || !currentProject) return;
 
   return (
     <>
@@ -26,7 +28,7 @@ export function SidebarGroupColor({
                 dispatch({
                   type: "update:color-background",
                   payload: {
-                    id: currentProject.id,
+                    id: currentProjectId,
                     background: value,
                   },
                 });
@@ -56,7 +58,7 @@ export function SidebarGroupColor({
                 dispatch({
                   type: "update:color-hue",
                   payload: {
-                    id: currentProject.id,
+                    id: currentProjectId,
                     hue: value,
                   },
                 });
@@ -80,7 +82,7 @@ export function SidebarGroupColor({
                 dispatch({
                   type: "update:color-brightness",
                   payload: {
-                    id: currentProject.id,
+                    id: currentProjectId,
                     brightness: [min, max],
                   },
                 });

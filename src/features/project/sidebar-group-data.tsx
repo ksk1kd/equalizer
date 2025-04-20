@@ -5,12 +5,18 @@ import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 import { Textarea } from "@/components/ui/textarea";
-import { type Project, useProjectsContext } from "@/contexts/projects";
+import { useCurrentProjectContext } from "@/contexts/currentProject";
+import { useProjectsContext } from "@/contexts/projects";
 
-export function SidebarGroupData({
-  currentProject,
-}: { currentProject: Project }) {
-  const { dispatch } = useProjectsContext();
+export function SidebarGroupData() {
+  const { projects, dispatch } = useProjectsContext();
+  const { currentProjectId, currentProject } = useCurrentProjectContext();
+
+  if (!currentProjectId || !currentProject) return;
+
+  const currentProjectRaw = projects?.filter(
+    (project) => project.id === currentProjectId,
+  )[0];
 
   return (
     <>
@@ -23,13 +29,13 @@ export function SidebarGroupData({
               placeholder={
                 '[\n  {\n    "name": "Hokkaido", \n    "amount": 100\n  },\n  {\n    "name": "Tokyo", \n    "amount": 200\n  },\n  {\n    "name": "Osaka", \n    "amount": 150\n  }\n]'
               }
-              defaultValue={currentProject.data.source}
+              defaultValue={currentProjectRaw?.data.source}
               onChange={(e) => {
                 if (!dispatch) return;
                 dispatch({
                   type: "update:data-source",
                   payload: {
-                    id: currentProject.id,
+                    id: currentProjectId,
                     source: e.target.value,
                   },
                 });
@@ -42,13 +48,13 @@ export function SidebarGroupData({
           <FormControl>
             <Input
               placeholder="50,100,150,200"
-              defaultValue={currentProject.data.segments}
+              defaultValue={currentProjectRaw?.data.segments}
               onChange={(e) => {
                 if (!dispatch) return;
                 dispatch({
                   type: "update:data-segments",
                   payload: {
-                    id: currentProject.id,
+                    id: currentProjectId,
                     segments: e.target.value,
                   },
                 });
