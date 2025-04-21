@@ -26,38 +26,29 @@ export default function ProjectsTable() {
           </CardHeader>
           <CardContent>
             <ScrollArea className="h-50">
-              {projects?.length !== 0 ? (
-                <>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead className="text-xs h-8">Name</TableHead>
+              {projects?.length !== 0 && (
+                <Table>
+                  <TableBody>
+                    {projects?.map((project) => (
+                      <TableRow key={project.id}>
+                        <TableCell className="text-base">
+                          <Link
+                            href={`/project/${project.id}`}
+                            className="block p-2"
+                          >
+                            {project.name}
+                          </Link>
+                        </TableCell>
+                        <TableCell className="w-5">
+                          <DeleteProjectDialog
+                            id={project.id}
+                            name={project.name}
+                          />
+                        </TableCell>
                       </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {projects?.map((project) => (
-                        <TableRow key={project.id}>
-                          <TableCell className="text-base">
-                            <Link
-                              href={`/project/${project.id}`}
-                              className="block p-2"
-                            >
-                              {project.name}
-                            </Link>
-                          </TableCell>
-                          <TableCell className="w-5">
-                            <DeleteProjectDialog
-                              id={project.id}
-                              name={project.name}
-                            />
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </>
-              ) : (
-                <p className="text-sm">No project.</p>
+                    ))}
+                  </TableBody>
+                </Table>
               )}
             </ScrollArea>
           </CardContent>
