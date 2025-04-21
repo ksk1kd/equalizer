@@ -11,6 +11,7 @@ import { useEffect, useRef } from "react";
 import JapanMap from "./japan-map";
 import { SidebarGroupColor } from "./sidebar-group-color";
 import { SidebarGroupData } from "./sidebar-group-data";
+import { SidebarGroupLegend } from "./sidebar-group-legend";
 
 export default function Canvas({
   projectId,
@@ -76,6 +77,7 @@ export default function Canvas({
         <AppSidebar>
           <SidebarGroupData />
           <SidebarGroupColor />
+          <SidebarGroupLegend />
         </AppSidebar>
         <main className="relative w-screen h-screen">
           <SidebarTrigger

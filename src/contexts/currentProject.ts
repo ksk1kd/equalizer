@@ -70,19 +70,21 @@ export function currentProjectReducer(
             .sort((a, b) => a - b) || [];
 
         const segments: Segment[] = [];
-        for (let i = 0; i < amountOnlySegments.length + 1; i++) {
-          const min = i !== 0 ? amountOnlySegments[i - 1] + 1 : null;
-          const max =
-            i !== amountOnlySegments.length ? amountOnlySegments[i] : null;
-          const opacity =
-            brightnessMin +
-            (brightnessMax - brightnessMin) * (i / amountOnlySegments.length);
+        if (amountOnlySegments.length > 0) {
+          for (let i = 0; i < amountOnlySegments.length + 1; i++) {
+            const min = i !== 0 ? amountOnlySegments[i - 1] + 1 : null;
+            const max =
+              i !== amountOnlySegments.length ? amountOnlySegments[i] : null;
+            const opacity =
+              brightnessMin +
+              (brightnessMax - brightnessMin) * (i / amountOnlySegments.length);
 
-          segments.push({
-            opacity,
-            min,
-            max,
-          });
+            segments.push({
+              opacity,
+              min,
+              max,
+            });
+          }
         }
 
         return {
