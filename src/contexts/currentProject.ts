@@ -59,7 +59,10 @@ export function currentProjectReducer(
         const brightnessMin = action.payload.project.color.brightness.min;
         const brightnessMax = action.payload.project.color.brightness.max;
 
-        const source = JSON.parse(action.payload.project.data.source) as Pref[];
+        let source: Pref[] = [];
+        if (action.payload.project.data.source) {
+          source = JSON.parse(action.payload.project.data.source) as Pref[];
+        }
 
         const amountOnlySegments =
           action.payload.project.data.segments
