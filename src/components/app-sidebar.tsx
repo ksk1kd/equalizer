@@ -36,7 +36,7 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
           <SidebarMenuItem>
             <Select
               onValueChange={(value) => router.push(`/project/${value}`)}
-              defaultValue={currentProjectId || ""}
+              value={currentProjectId || ""}
             >
               <SelectTrigger className="w-full border-0">
                 <SelectValue placeholder="Project" />

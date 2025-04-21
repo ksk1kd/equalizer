@@ -29,7 +29,7 @@ export function SidebarGroupData() {
               placeholder={
                 '[\n  {\n    "name": "Hokkaido", \n    "amount": 100\n  },\n  {\n    "name": "Tokyo", \n    "amount": 200\n  },\n  {\n    "name": "Osaka", \n    "amount": 150\n  }\n]'
               }
-              defaultValue={currentProjectRaw?.data.source}
+              value={currentProjectRaw?.data.source}
               onChange={(e) => {
                 if (!dispatch) return;
                 dispatch({
@@ -48,7 +48,7 @@ export function SidebarGroupData() {
           <FormControl>
             <Input
               placeholder="50,100,150,200"
-              defaultValue={currentProjectRaw?.data.segments}
+              value={currentProjectRaw?.data.segments}
               onChange={(e) => {
                 if (!dispatch) return;
                 dispatch({

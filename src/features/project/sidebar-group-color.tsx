@@ -22,7 +22,7 @@ export function SidebarGroupColor() {
           <FormLabel>Background</FormLabel>
           <FormControl>
             <RadioGroup
-              defaultValue={currentProject.color.background}
+              value={currentProject.color.background}
               onValueChange={(value: "light" | "dark") => {
                 if (!dispatch) return;
                 dispatch({
