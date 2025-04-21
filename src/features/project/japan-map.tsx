@@ -10,10 +10,7 @@ export type Pref = {
   amount: number;
 };
 
-const WIDTH = 800;
-const HEIGHT = 800;
 const CENTER_POS = [137.0, 38.2] as [number, number];
-const SCALE = 1500;
 const LIGHTNESS = 0.75;
 const CHROMA = 0.18;
 
@@ -29,19 +26,22 @@ const JapanMap = () => {
     const mapContainer = mapContainerRef.current;
     if (!mapContainer) return;
 
+    const width = mapContainer.offsetWidth;
+    const height = mapContainer.offsetHeight;
+
     const projection = d3
       .geoMercator()
       .center(CENTER_POS)
-      .translate([WIDTH / 2, HEIGHT / 2])
-      .scale(SCALE);
+      .translate([width / 2, height / 2])
+      .scale(Math.min(width, height) * 2);
 
     const path = d3.geoPath().projection(projection);
 
     const svg = d3
       .select(mapContainer)
       .append("svg")
-      .attr("width", mapContainer.offsetWidth)
-      .attr("height", mapContainer.offsetHeight);
+      .attr("width", width)
+      .attr("height", height);
 
     svg
       .selectAll("path")
@@ -76,7 +76,12 @@ const JapanMap = () => {
     };
   }, [currentProject]);
 
-  return <div ref={mapContainerRef} className="w-[800px] h-[800px]" />;
+  return (
+    <div
+      ref={mapContainerRef}
+      className="size-full flex items-center justify-center"
+    />
+  );
 };
 
 export default memo(JapanMap);
