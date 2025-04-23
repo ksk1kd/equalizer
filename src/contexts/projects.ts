@@ -16,6 +16,11 @@ export type Project = {
   data: {
     type: "json" | "notion-api-database";
     source: string;
+    notion: {
+      secret: string;
+      database: string;
+      property: string;
+    };
     segments: string;
   };
 };
@@ -78,6 +83,27 @@ export type ActionType =
       payload: {
         id: string;
         segments: string;
+      };
+    }
+  | {
+      type: "update:notion-secret";
+      payload: {
+        id: string;
+        secret: string;
+      };
+    }
+  | {
+      type: "update:notion-database";
+      payload: {
+        id: string;
+        database: string;
+      };
+    }
+  | {
+      type: "update:notion-property";
+      payload: {
+        id: string;
+        property: string;
       };
     };
 
@@ -187,6 +213,54 @@ export function projectsReducer(projects: Project[], action: ActionType) {
               data: {
                 ...project.data,
                 segments: action.payload.segments,
+              },
+            }
+          : project,
+      );
+    }
+    case "update:notion-secret": {
+      return projects.map((project) =>
+        project.id === action.payload.id
+          ? {
+              ...project,
+              data: {
+                ...project.data,
+                notion: {
+                  ...project.data.notion,
+                  secret: action.payload.secret,
+                },
+              },
+            }
+          : project,
+      );
+    }
+    case "update:notion-database": {
+      return projects.map((project) =>
+        project.id === action.payload.id
+          ? {
+              ...project,
+              data: {
+                ...project.data,
+                notion: {
+                  ...project.data.notion,
+                  database: action.payload.database,
+                },
+              },
+            }
+          : project,
+      );
+    }
+    case "update:notion-property": {
+      return projects.map((project) =>
+        project.id === action.payload.id
+          ? {
+              ...project,
+              data: {
+                ...project.data,
+                notion: {
+                  ...project.data.notion,
+                  property: action.payload.property,
+                },
               },
             }
           : project,

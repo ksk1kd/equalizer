@@ -1,7 +1,6 @@
 "use client";
 
 import type { Project } from "@/contexts/projects";
-import { max } from "d3";
 import {
   type Dispatch,
   type SetStateAction,
@@ -34,6 +33,11 @@ export type CurrentProject = {
     type: "json" | "notion-api-database";
     source: Pref[];
     segments: Segment[];
+    notion: {
+      secret: string;
+      database: string;
+      property: string;
+    };
   };
 };
 
@@ -60,6 +64,7 @@ export function currentProjectReducer(
         const brightnessMin = action.payload.project.color.brightness.min;
         const brightnessMax = action.payload.project.color.brightness.max;
         const type = action.payload.project.data.type;
+        const notion = action.payload.project.data.notion;
 
         let source: Pref[] = [];
         if (action.payload.project.data.source) {
@@ -106,6 +111,7 @@ export function currentProjectReducer(
             type,
             source,
             segments,
+            notion,
           },
         };
       } catch (_) {
