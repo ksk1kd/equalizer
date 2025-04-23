@@ -3,7 +3,13 @@
 import { AppSidebarGroup } from "@/components/app-sidebar-group";
 import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useCurrentProjectContext } from "@/contexts/currentProject";
 import { useProjectsContext } from "@/contexts/projects";
@@ -21,6 +27,35 @@ export function SidebarGroupData() {
   return (
     <>
       <AppSidebarGroup label="Data">
+        <FormItem>
+          <FormLabel>Source Type</FormLabel>
+          <FormControl>
+            <Select
+              defaultValue="json"
+              value={currentProjectRaw?.data.type}
+              onValueChange={(value: "json" | "notion-api-database") => {
+                if (!dispatch) return;
+                dispatch({
+                  type: "update:data-type",
+                  payload: {
+                    id: currentProjectId,
+                    type: value,
+                  },
+                });
+              }}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="json">JSON</SelectItem>
+                <SelectItem value="notion-api-database">
+                  Notion API - Database
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </FormControl>
+        </FormItem>
         <FormItem>
           <FormLabel>Source</FormLabel>
           <FormControl>

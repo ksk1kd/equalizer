@@ -1,6 +1,5 @@
 "use client";
 
-import { useTheme } from "next-themes";
 import { type Dispatch, createContext, useContext } from "react";
 
 export type Project = {
@@ -15,6 +14,7 @@ export type Project = {
     };
   };
   data: {
+    type: "json" | "notion-api-database";
     source: string;
     segments: string;
   };
@@ -57,6 +57,13 @@ export type ActionType =
       payload: {
         id: string;
         brightness: [number, number];
+      };
+    }
+  | {
+      type: "update:data-type";
+      payload: {
+        id: string;
+        type: "json" | "notion-api-database";
       };
     }
   | {
@@ -141,6 +148,19 @@ export function projectsReducer(projects: Project[], action: ActionType) {
                   min: action.payload.brightness[0],
                   max: action.payload.brightness[1],
                 },
+              },
+            }
+          : project,
+      );
+    }
+    case "update:data-type": {
+      return projects.map((project) =>
+        project.id === action.payload.id
+          ? {
+              ...project,
+              data: {
+                ...project.data,
+                type: action.payload.type,
               },
             }
           : project,

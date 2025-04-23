@@ -31,6 +31,7 @@ export type CurrentProject = {
     };
   };
   data: {
+    type: "json" | "notion-api-database";
     source: Pref[];
     segments: Segment[];
   };
@@ -58,6 +59,7 @@ export function currentProjectReducer(
         const hue = action.payload.project.color.hue;
         const brightnessMin = action.payload.project.color.brightness.min;
         const brightnessMax = action.payload.project.color.brightness.max;
+        const type = action.payload.project.data.type;
 
         let source: Pref[] = [];
         if (action.payload.project.data.source) {
@@ -101,6 +103,7 @@ export function currentProjectReducer(
             },
           },
           data: {
+            type,
             source,
             segments,
           },
