@@ -20,6 +20,7 @@ export type Project = {
       secret: string;
       database: string;
       property: string;
+      result: string[];
     };
     segments: string;
   };
@@ -105,6 +106,13 @@ export type ActionType =
         id: string;
         property: string;
       };
+    }
+  | {
+      type: "update:notion-result";
+      payload: {
+        id: string;
+        result: string[];
+      };
     };
 
 export const initialProjects = [];
@@ -128,7 +136,14 @@ export function projectsReducer(projects: Project[], action: ActionType) {
             },
           },
           data: {
+            type: "json",
             source: "",
+            notion: {
+              secret: "",
+              database: "",
+              property: "",
+              result: [],
+            },
             segments: "",
           },
         } as Project,
@@ -260,6 +275,22 @@ export function projectsReducer(projects: Project[], action: ActionType) {
                 notion: {
                   ...project.data.notion,
                   property: action.payload.property,
+                },
+              },
+            }
+          : project,
+      );
+    }
+    case "update:notion-result": {
+      return projects.map((project) =>
+        project.id === action.payload.id
+          ? {
+              ...project,
+              data: {
+                ...project.data,
+                notion: {
+                  ...project.data.notion,
+                  result: action.payload.result,
                 },
               },
             }

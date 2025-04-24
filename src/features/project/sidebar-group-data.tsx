@@ -13,6 +13,8 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useCurrentProjectContext } from "@/contexts/currentProject";
 import { useProjectsContext } from "@/contexts/projects";
+import { NotionClient } from "@/lib/notion";
+import { useEffect } from "react";
 
 export function SidebarGroupData() {
   const { projects, dispatch } = useProjectsContext();
@@ -23,6 +25,40 @@ export function SidebarGroupData() {
   const currentProjectRaw = projects?.filter(
     (project) => project.id === currentProjectId,
   )[0];
+
+  useEffect(() => {
+    (async () => {
+      if (
+        !currentProject.data.notion.secret ||
+        !currentProject.data.notion.database ||
+        !currentProject.data.notion.property
+      )
+        return;
+
+      const notion = new NotionClient({
+        secret: currentProject.data.notion.secret,
+        database: currentProject.data.notion.database,
+        property: currentProject.data.notion.property,
+      });
+
+      const result = await notion.fetch();
+
+      if (!dispatch) return;
+      dispatch({
+        type: "update:notion-result",
+        payload: {
+          id: currentProjectId,
+          result: result,
+        },
+      });
+    })();
+  }, [
+    currentProject.data.notion.secret,
+    currentProject.data.notion.database,
+    currentProject.data.notion.property,
+    dispatch,
+    currentProjectId,
+  ]);
 
   return (
     <>

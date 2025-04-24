@@ -1,6 +1,7 @@
 "use client";
 
 import type { Project } from "@/contexts/projects";
+import { countPrefectures } from "@/utils/countPrefectures";
 import {
   type Dispatch,
   type SetStateAction,
@@ -37,6 +38,7 @@ export type CurrentProject = {
       secret: string;
       database: string;
       property: string;
+      result: string[];
     };
   };
 };
@@ -55,24 +57,22 @@ export function currentProjectReducer(
 ) {
   switch (action.type) {
     case "update": {
-      if (!action.payload.project) return null;
+      const project = action.payload.project;
+      if (!project) return null;
 
       try {
-        const name = action.payload.project.name;
-        const background = action.payload.project.color.background;
-        const hue = action.payload.project.color.hue;
-        const brightnessMin = action.payload.project.color.brightness.min;
-        const brightnessMax = action.payload.project.color.brightness.max;
-        const type = action.payload.project.data.type;
-        const notion = action.payload.project.data.notion;
-
         let source: Pref[] = [];
-        if (action.payload.project.data.source) {
-          source = JSON.parse(action.payload.project.data.source) as Pref[];
+        if (
+          project.data.type === "notion-api-database" &&
+          project.data.notion.result.length > 0
+        ) {
+          source = countPrefectures(project.data.notion.result);
+        } else if (project.data.source) {
+          source = JSON.parse(project.data.source) as Pref[];
         }
 
         const amountOnlySegments =
-          action.payload.project.data.segments
+          project.data.segments
             .replace(" ", "")
             .split(",")
             .filter((n) => n)
@@ -86,8 +86,9 @@ export function currentProjectReducer(
             const max =
               i !== amountOnlySegments.length ? amountOnlySegments[i] : null;
             const opacity =
-              brightnessMin +
-              (brightnessMax - brightnessMin) * (i / amountOnlySegments.length);
+              project.color.brightness.min +
+              (project.color.brightness.max - project.color.brightness.min) *
+                (i / amountOnlySegments.length);
 
             segments.push({
               opacity,
@@ -98,20 +99,20 @@ export function currentProjectReducer(
         }
 
         return {
-          name,
+          name: project.name,
           color: {
-            background,
-            hue,
+            background: project.color.background,
+            hue: project.color.hue,
             brightness: {
-              min: brightnessMin,
-              max: brightnessMax,
+              min: project.color.brightness.min,
+              max: project.color.brightness.max,
             },
           },
           data: {
-            type,
+            type: project.data.type,
             source,
             segments,
-            notion,
+            notion: project.data.notion,
           },
         };
       } catch (_) {
