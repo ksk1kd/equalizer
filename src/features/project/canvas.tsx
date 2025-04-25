@@ -73,7 +73,7 @@ export default function Canvas({
 
   return (
     <>
-      <SidebarProvider>
+      <SidebarProvider defaultOpen={false}>
         <AppSidebar>
           <SidebarGroupData />
           <SidebarGroupColor />
