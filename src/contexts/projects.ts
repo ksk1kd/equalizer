@@ -137,14 +137,14 @@ export function projectsReducer(projects: Project[], action: ActionType) {
           },
           data: {
             type: "json",
-            source: "",
+            source: `[\n  {\n    "name": "Hokkaido", \n    "amount": 100\n  },\n  {\n    "name": "Tokyo", \n    "amount": 200\n  },\n  {\n    "name": "Osaka", \n    "amount": 150\n  }\n]`,
             notion: {
               secret: "",
               database: "",
-              property: "",
+              property: "Prefecture",
               result: [],
             },
-            segments: "",
+            segments: "50,100,150,200",
           },
         } as Project,
       ];
